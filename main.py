@@ -188,5 +188,10 @@ while 1:
         halp(ircmsg.split(":")[1].split('!')[0])
         continue
 
+    if " :.git" in ircmsg and channel in ircmsg: # If we can find ".git" it will call the function
+        git()
+        continue
     if "PING :" in ircmsg:  # respond to pings
         ping()
+        
+
