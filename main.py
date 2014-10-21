@@ -86,6 +86,8 @@ def hello(user):  # This function responds to a user that inputs "Hello cybits"
 def feel():  # >tfw
     ircsock.send("PRIVMSG "+channel + ' :"tfw no gf" is an abbreviated expression for "that feeling [I get] when '
                                       '[I have] no girlfriend" often used in online discussions and comments.\n')
+def git(): #.git
+    ircsock.send("PRIVMSG "+channel + 'https://github.com/lovelaced/cybot go ahead and fork me~ :3\n')
 
 
 def autointerject(user):  # making sure users don't forget the GNU
