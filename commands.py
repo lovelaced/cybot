@@ -111,10 +111,10 @@ def shitposting(args):  # almost entirely automated shitposting
     if " ".join(args["args"]) == "| tweet":
         directory = os.path.dirname(__file__)
         with open(directory + "/shitpost.txt", 'r') as twit:
-            shitpost = twit.read()
+            shitpost = twit.read()[0:140]
         return twitter(shitpost)
 
-    shitpost = fourchan_json.get_random_post()
+    shitpost = fourchan_json.get_random_post(args)
     shitpost = shitpost.split("\x0f")
     res_shitpost = []
     for l in shitpost:
@@ -149,7 +149,7 @@ def interjection(args):  # I'd just like to interject for a moment
 
 @command("git")
 def git(args):
-    str = "https://github.com/lovelaced/cybot What are we going to do on the repo? waaaah fork =3\n"
+    str = "https://github.com/cybits/cybot What are we going to do on the repo? waaaah fork =3\n"
     return str
 
 
@@ -177,6 +177,35 @@ def hello(user):  # This function responds to a user that inputs "Hello cybits"
     str = ("are you even cyb, " + user + "?\n")
     return str
 
+
+@command("ayylmao")
+def ayylmao(args): 
+    import time
+    sendmsg = args["sendmsg"]
+    line = ('ABDUCTION: INCOMING')
+    
+    ayylien = ["       .-""""-.        .-""""-.    ",
+               "      /        \      /        \   ",
+               "     /_        _\    /_        _\  ",
+               "    // \      / \\  // \      / \\ ",
+               "    |\__\    /__/|  |\__\    /__/| ",
+               "     \    ||    /    \    ||    /  ",
+               "      \        /      \        /   ",
+               "       \  __  /        \  __  /    ",
+               "        '.__.' ayy lmao '.__.'     "]
+    
+    
+    ircmsg = args["raw"]
+    user = ircmsg.split(":")[1].split('!')[0]
+    channel = args["channel"]
+    sendmsg(channel, line)
+    for lines in ayylien:
+	sendmsg(user, lines)
+	time.sleep(1)
+   # ayy lmao 
+   # Doing all the logic inside the function
+   # Since sendmsg wont post empty strings.
+    return ""
 
 @command("feel")
 def feel(args):  # >tfw
@@ -275,6 +304,30 @@ def pike(args):
     pike = directory + os.path.join("/texts/other/rob.txt")
     return random.choice(list(open(pike)))
 
+@command("gene")
+def ray(args):
+    directory = os.path.dirname(__file__)
+    ray = directory + os.path.join("/texts/other/timecube.txt")
+    return random.choice(list(open(ray)))
+    
+@command("linus")
+def torv(args):
+    directory = os.path.dirname(__file__)
+    torv = directory + os.path.join("/texts/other/linus.txt")
+    return random.choice(list(open(torv)))
+
+@command("rms")
+def stallman(args):
+    directory = os.path.dirname(__file__)
+    richard = directory + os.path.join("/texts/other/stallman.txt")
+    return random.choice(list(open(richard)))
+
+@command("eightball")
+def eight(args):
+    directory = os.path.dirname(__file__)
+    eight = directory + os.path.join("/texts/other/eightball.txt")
+    return random.choice(list(open(eight)))
+
 @command("triforce")
 def coolt(args):
     sendmsg = args["sendmsg"]
@@ -330,6 +383,23 @@ def cute(args):
 @command("bots")
 def bots(args):
     return "Reporting in! [Python] Try .cybhelp for commands."
+    
+@command("valka")
+def valka(args):
+    """We miss you"""
+    return "..."
+    
+@command("hackers")
+def hackers(args):
+    directory = os.path.dirname(__file__)
+    hackers = directory + os.path.join("/texts/other/hackers.txt")
+    return random.choice(list(open(hackers)))
+
+@command("noided")
+def noided(args):
+    directory = os.path.dirname(__file__)
+    noided = directory + os.path.join("/texts/other/grips.txt")
+    return random.choice(list(open(noided)))
 
 def breaklines(str):  # This function breaks lines at \n and sends the split lines to where they need to go
     strarray = string.split(str, "\n")

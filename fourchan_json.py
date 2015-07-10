@@ -59,15 +59,30 @@ def get_thread_json(board, threadno):
 def get_op_no(pagedata, threadindex):
     return pagedata['threads'][threadindex]['posts'][0]['no']
 
+def get_boardargs():
+    data = get_boards_json()
 
-def get_random_post():
+def get_random_post(args):
 
     for iterations in range(0, 10):
         data = get_boards_json()
 
         allboards = data['boards']
 
-        i = random.randint(0, len(allboards)-1)
+        found = False
+
+        if args['args']:
+            print args['args']
+            i = 0
+            for board in allboards:
+                i += 1
+                if args['args'][-1:][0] in board['meta_description'].split()[0].split('&quot;')[-1:]:
+                    found = True
+                    i -= 1
+                    break
+
+        if not found:
+            i = random.randint(0, len(allboards)-1)
 
         board = allboards[i]['board']
         numpages = allboards[i]['pages']
@@ -96,12 +111,12 @@ def get_random_post():
                     final = text.encode('utf-8')
                     return final
                 else:
-                    get_random_post()
+                    get_random_post(args)
 
             elif iterations == 10:
                 return "No shitpost found."
 
             else:
-                get_random_post()
+                get_random_post(args)
         except:
             return "Fuck unicode"
