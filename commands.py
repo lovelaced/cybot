@@ -118,6 +118,16 @@ def random_image(image_link):
     img_link = random.choice(img_list)
     return img_link
 
+def imgur_pic(subreddit):
+    html = BeautifulSoup(requests.get("http://imgur.com/r/{}/".format(subreddit)).text, "html.parser")
+    length = len(html.findAll("a", {"class": "image-list-link"}))
+    retval = "\001ACTION blames it on GreyMan\001"
+    try:
+        retval = "!http://imgur.com{}".format(html.findAll("a", {"class": "image-list-link"})[random.randint(0, length)]['href'])
+    except IndexError:
+        pass
+    return retval
+
 @command("tweet")
 def tweet(args):
     return twitter(args)
@@ -155,6 +165,14 @@ def pic(args): #random pic from 4chan for big guys
     if board_exists or random:
             response = '{}: {}'.format(nick, fourchan_pic.main(new_args))
             return response
+
+@command("repic")
+def repic(args):
+    new_args = args["args"]
+    subreddit = "linuxcirclejerk"
+    if new_args:
+        subreddit = new_args[0]
+    return imgur_pic(subreddit)  
 
 @command("le")
 def reddit_le(args):
@@ -349,14 +367,7 @@ def guinea(args):
 
 @command("guineas")
 def guinea(args):
-    html = BeautifulSoup(requests.get("http://imgur.com/r/guineapigs/").text, "html5lib")
-    length = len(html.findAll("a", {"class": "image-list-link"}))
-    retval = "*blames it on GreyMan*"
-    try:
-        retval = "http://imgur.com{}".format(html.findAll("a", {"class": "image-list-link"})[random.randint(0, length)]['href'])
-    except IndexError:
-        pass
-    return retval
+    return imgur_pic("guineapigs")
 
 @command("checkem")
 def checkem(args):
@@ -497,14 +508,7 @@ def bots(args):
 
 @command("spikepig")
 def spikepig(args):
-    html = BeautifulSoup(requests.get("http://imgur.com/r/hedgehog/").text, "html5lib")
-    length = len(html.findAll("a", {"class": "image-list-link"}))
-    retval = "*blames it on GreyMan*"
-    try:
-        retval = "http://imgur.com{}".format(html.findAll("a", {"class": "image-list-link"})[random.randint(0, length)]['href'])
-    except IndexError:
-        pass
-    return retval
+    return imgur_pic("hedgehog")
 
 @command("rate")
 def random_rate0(args):
