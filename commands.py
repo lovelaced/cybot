@@ -123,7 +123,7 @@ def imgur_pic(subreddit):
     length = len(html.findAll("a", {"class": "image-list-link"}))
     retval = "\001ACTION blames it on GreyMan\001"
     try:
-        retval = "!http://imgur.com{}".format(html.findAll("a", {"class": "image-list-link"})[random.randint(0, length)]['href'])
+        retval = "​http://imgur.com{}".format(html.findAll("a", {"class": "image-list-link"})[random.randint(0, length)]['href'])
     except IndexError:
         pass
     return retval
@@ -172,7 +172,12 @@ def repic(args):
     subreddit = "linuxcirclejerk"
     if new_args:
         subreddit = new_args[0]
-    return imgur_pic(subreddit)  
+    return imgur_pic(subreddit)
+
+@command("wiki")
+def wiki(args):
+    return "​"+ requests.get("https://en.wikipedia.org/wiki/Special:Random").url
+
 
 @command("le")
 def reddit_le(args):
@@ -203,13 +208,13 @@ def halp(args):
 def interjection(args):  # I'd just like to interject for a moment
     str = ("I'd just like to interject for moment. What you're referring to as "
               "Linux, is in fact, GNU/Linux, or as I've recently taken to calling it,"
-              " GNU plus Linux. !http://pastebin.com/2YxSM4St\n")
+              " GNU plus Linux. ​http://pastebin.com/2YxSM4St\n")
     return str
 
 
 @command("git")
 def git(args):
-    str = "!https://github.com/cybits/cybot What are we going to do on the repo? waaaah fork =3\n"
+    str = "​https://github.com/cybits/cybot What are we going to do on the repo? waaaah fork =3\n"
     return str
 @command("reminder")
 def reminder(args):  # today, I will remind them
@@ -435,7 +440,7 @@ def joerogan(args):
             "SHROOMTECH",
             "KRILL & MCT OIL",
             "PRIMATE CARE PILLS",
-            "!https://www.youtube.com/watch?v=22GjkJw0WXk <---- HIT PLAY NIGGA"]
+            "​https://www.youtube.com/watch?v=22GjkJw0WXk <---- HIT PLAY NIGGA"]
         for msg in intromsg:
             sendmsg(channel, msg)
             time.sleep(1)
@@ -596,7 +601,7 @@ def ba(args):
                     beers.append(soup.find_all('a')[i].get("href"))
             if len(beers) > 0:  
                 data = beer_lookup(baseurl+beers[0], user_agent)
-                oneliner = data['name'].decode() + " | " + data['style'].decode(), "BA score: " + data['ba_score'].decode() + " (From: " + data['ba_ratings'].decode() +") | Bro score: " + data['bro_score'].decode(), data['brewery'].decode() + " | " + data['abv'].decode(), ("!" + baseurl+beers[0])
+                oneliner = data['name'].decode() + " | " + data['style'].decode(), "BA score: " + data['ba_score'].decode() + " (From: " + data['ba_ratings'].decode() +") | Bro score: " + data['bro_score'].decode(), data['brewery'].decode() + " | " + data['abv'].decode(), ("​" + baseurl+beers[0])
                 return " ".join(oneliner)
   
             else:  
