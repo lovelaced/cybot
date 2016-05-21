@@ -549,62 +549,6 @@ def breaklines(str):  # This function breaks lines at \n and sends the split lin
     strarray = string.split(str, "\n")
     return strarray
 
-
-
-@command("ba")
-def ba(args):
-    #define a user agent
-    user_agent = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.85 Safari/537.36'}
-    baseurl = "http://www.beeradvocate.com"
-    if args["args"]:
-        try:
-            int(args["args"][-1])
-            payload = {"q" : " ".join(args["args"][:-1])}
-        except ValueError:
-            payload = {"q" : " ".join(args["args"])}
-        r = requests.get(baseurl + "/search/", headers=user_agent, params=payload)
-        if r.status_code == 200:
-            soup = BeautifulSoup(r.text, "html.parser")
-            regex = re.compile("/beer/profile/.*/.+")
-            beers = [b.get("href") for b in soup.find_all(href=regex)]
-            if len(beers) > 0:
-                data = beer_lookup(baseurl+beers[0], user_agent)
-                msg = [
-                        data['name'] + " | " + data['style'],
-                        "BA score: " + data['ba_score'] + " (From: " + data['ba_ratings'] + ") | Bro score: " + data['bro_score'],
-                        data['brewery'] + " | " + data['abv'],
-                        baseurl + beers[0]
-                ]
-                sendmsg = args["sendmsg"]
-                channel = args["channel"]	
-                to_send = []
-                for line in msg:
-                    to_send.append(line)
-                return " | ".join(to_send)
-
-            else:
-               return "No results from BA."
-
-# BA helper function.
-def beer_lookup(url, user_agent):
-    r = requests.get(url, headers=user_agent)
-    if r.status_code == 200:
-        soup = BeautifulSoup(r.text, "html.parser")
-        # Stupid shit because ABV is just a barewords string somewhere in the div.
-        rightdiv = soup.find('div', style="float:right;width:70%;")
-        strsoup  = str(rightdiv.contents[5]).splitlines()
-
-        info = {}
-        info['name']       = str(soup.title.string.split("|")[0])
-        info['ba_score']   = soup.find('span', class_="BAscore_big ba-score").contents[0]
-        info['ba_class']   = soup.find('span', class_="ba-score_text").contents[0]
-        info['ba_ratings'] = soup.find('span', class_="ba-ratings").contents[0]
-        info['bro_score']  = soup.find('span', class_="BAscore_big ba-bro_score").contents[0]
-        info['brewery']    = soup.select('span[itemprop="title"]')[2].contents[0]
-        info['style']      = soup.select('a[href*="/beer/style/"]')[0].contents[0].contents[0]
-        info['abv']        = strsoup[7].split("</b>")[1].lstrip()
-        return info
-
 # in place case-preserving function
 def replacement_func(match, repl_pattern):
     match_str = match.group(0)
